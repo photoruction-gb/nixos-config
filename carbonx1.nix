@@ -144,8 +144,10 @@ in {
       authenticator
       aws-vault
       awscli2
+      unstable.beekeeper-studio
       chafa
       clipman
+      ctpv
       ferdium
       firefox-wayland
       foot
@@ -158,13 +160,18 @@ in {
       hyprland
       hyprpaper
       inkscape
+      lf
+      libreoffice-fresh
+      jq
       mako
       mate.atril
       papirus-icon-theme
       pcmanfm
+      rustup
       slurp
       ssm-session-manager-plugin
       taskwarrior
+      timewarrior
       ungoogled-chromium
       vlc
       waybar
@@ -189,6 +196,17 @@ in {
       options = [
         "--cmd cd"
       ];
+    };
+    programs.lf = {
+      previewer = {
+        keybinding = "i";
+        source = "${pkgs.ctpv}/bin/ctpv";
+      };
+      extraConfig = ''
+        &${pkgs.ctpv}/bin/ctpv -s $id
+        cmd on-quit %${pkgs.ctpv}/bin/ctpv -e $id
+        set cleaner ${pkgs.ctpv}/bin/ctpvclear
+      '';
     };
 
     # The state version is required and should stay at the version you
