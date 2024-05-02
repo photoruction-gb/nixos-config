@@ -77,6 +77,16 @@ in {
     };
   };
   security.rtkit.enable = true;
+  security.polkit = {
+    enable = true;
+  };
+  services.udev.extraRules = ''
+    # uhk
+    SUBSYSTEM=="input", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", GROUP="input", MODE="0660"
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", MODE:="0666", GROUP="plugdev"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", MODE="0666", GROUP="plugdev"
+  '';
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -105,7 +115,6 @@ in {
     bottom
     curl
     delta
-    docker
     eza
     fd
     fzf
@@ -144,10 +153,12 @@ in {
       authenticator
       aws-vault
       awscli2
-      unstable.beekeeper-studio
+      bibata-cursors
       chafa
       clipman
+      cmus
       ctpv
+      fastfetch
       ferdium
       firefox-wayland
       foot
@@ -160,11 +171,15 @@ in {
       hyprland
       hyprpaper
       inkscape
+      kooha
       lf
       libreoffice-fresh
+      lxqt.lxqt-policykit
       jq
       mako
       mate.atril
+      ncdu
+      ncmpcpp
       papirus-icon-theme
       pcmanfm
       rustup
@@ -173,6 +188,8 @@ in {
       taskwarrior
       timewarrior
       ungoogled-chromium
+      unstable.beekeeper-studio
+      unstable.uhk-agent
       vlc
       waybar
       webp-pixbuf-loader
@@ -189,6 +206,7 @@ in {
         zenith = "zenith -c 0 -d 0 -n 0";
         suspend = "systemctl suspend";
         wormhole = "wormhole-rs";
+        "restart-portal" = "systemctl --user restart xdg-desktop-portal-hyprland";
       };
     };
     programs.zoxide = {
@@ -206,6 +224,17 @@ in {
         &${pkgs.ctpv}/bin/ctpv -s $id
         cmd on-quit %${pkgs.ctpv}/bin/ctpv -e $id
         set cleaner ${pkgs.ctpv}/bin/ctpvclear
+      '';
+    };
+
+    services.mpd = {
+      enable = true;
+      musicDirectory = "/home/guillaume/Music";
+      extraConfig = ''
+        audio_output {
+          type "pipewire"
+          name "PipeWire Output"
+        }
       '';
     };
 
@@ -251,6 +280,14 @@ in {
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+  networking.firewall = {
+    trustedInterfaces = [
+        "docker0"
+      ];
+    allowedTCPPorts = [
+      3306
+    ];
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
