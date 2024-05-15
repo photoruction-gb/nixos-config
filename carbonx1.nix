@@ -83,8 +83,8 @@ in {
   services.udev.extraRules = ''
     # uhk
     SUBSYSTEM=="input", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", GROUP="input", MODE="0660"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", MODE:="0666", GROUP="plugdev"
-    KERNEL=="hidraw*", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", MODE="0666", GROUP="plugdev"
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", MODE:="0666", TAG+="uaccess"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", MODE="0666", TAG+="uaccess"
   '';
 
   services.pipewire = {
@@ -182,6 +182,7 @@ in {
       ncmpcpp
       papirus-icon-theme
       pcmanfm
+      powertop
       rustup
       slurp
       ssm-session-manager-plugin
@@ -189,6 +190,7 @@ in {
       timewarrior
       ungoogled-chromium
       unstable.beekeeper-studio
+      unstable.hyprcursor
       unstable.uhk-agent
       vlc
       waybar
