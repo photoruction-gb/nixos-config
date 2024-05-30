@@ -2,8 +2,8 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
-  config,
   pkgs,
+  lib,
   ...
 }: let
   unstable = import <nixos-unstable> {
@@ -25,8 +25,7 @@ in {
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.extraHosts =
-  ''
+  networking.extraHosts = ''
     127.0.0.1 minio-localhost
   '';
 
@@ -132,6 +131,7 @@ in {
     tig
     udiskie
     udisks2
+    unzip
     vimPlugins.telescope-fzf-native-nvim
     wget
     zenith
@@ -197,6 +197,22 @@ in {
       webp-pixbuf-loader
       wl-clipboard
       zsh-powerlevel10k
+      (unstable.vscode-with-extensions.override {
+        vscodeExtensions = with unstable.vscode-extensions;
+          [
+            catppuccin.catppuccin-vsc
+            vscodevim.vim
+            ms-vsliveshare.vsliveshare
+          ]
+          ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+            #       # {
+            #       #   name = "remote-ssh-edit";
+            #       #   publisher = "ms-vscode-remote";
+            #       #   version = "0.47.2";
+            #       #   sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
+            #       # }
+          ];
+      })
     ];
     programs.zsh = {
       enable = true;
@@ -284,8 +300,8 @@ in {
   # networking.firewall.enable = false;
   networking.firewall = {
     trustedInterfaces = [
-        "docker0"
-      ];
+      "docker0"
+    ];
     allowedTCPPorts = [
       3306
     ];
@@ -327,6 +343,7 @@ in {
 
   environment = {
     sessionVariables = {
+      NIXOS_OZONE_WL = "1";
       INPUT_METHOD = "fcitx";
       QT_IM_MODULE = "fcitx";
       # GTK_IM_MODULE = "fcitx";
