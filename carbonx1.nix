@@ -2,6 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
+  config,
   pkgs,
   lib,
   ...
@@ -16,6 +17,12 @@ in {
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.initrd.luks.devices."luks-6ab574dc-dbf0-4a1d-b8a3-98a9e02fa1df".device = "/dev/disk/by-uuid/6ab574dc-dbf0-4a1d-b8a3-98a9e02fa1df";
+
+  boot.extraModprobeConfig = ''
+    options iwlwifi 11n_disable=1
+  '';
+
+  hardware.enableRedistributableFirmware = true;
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -55,9 +62,15 @@ in {
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "us";
-    xkbVariant = "";
+    xkb = {
+      layout = "us";
+      variant = "";
+    };
   };
+
+  services.udev.packages = [
+    pkgs.android-udev-rules
+  ];
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -132,6 +145,7 @@ in {
     udiskie
     udisks2
     unzip
+    usbutils
     vimPlugins.telescope-fzf-native-nvim
     wget
     zenith
@@ -144,7 +158,7 @@ in {
   users.users.guillaume = {
     isNormalUser = true;
     description = "guillaume";
-    extraGroups = ["networkmanager" "wheel" "docker"];
+    extraGroups = ["networkmanager" "wheel" "docker" "adbusers"];
     shell = pkgs.zsh;
   };
 
@@ -154,12 +168,14 @@ in {
       aws-vault
       awscli2
       bibata-cursors
+      bruno
       chafa
       clipman
       cmus
       ctpv
+      dbeaver-bin
       fastfetch
-      ferdium
+      file
       firefox-wayland
       foot
       fuzzel
@@ -168,6 +184,7 @@ in {
       gnome.eog
       grim
       httpie
+      unstable.httpie-desktop
       hyprland
       hyprpaper
       inkscape
@@ -178,25 +195,36 @@ in {
       jq
       mako
       mate.atril
+      mycli
       ncdu
       ncmpcpp
+      nodejs_20
+      unstable.obsidian
+      openvpn
+      p7zip
       papirus-icon-theme
       pcmanfm
+      unstable.postman
       powertop
+      remmina
       rustup
+      scrcpy
       slurp
       ssm-session-manager-plugin
       taskwarrior
       timewarrior
       ungoogled-chromium
-      unstable.beekeeper-studio
-      unstable.hyprcursor
+      unzip
+      hyprcursor
       unstable.uhk-agent
       vlc
       waybar
       webp-pixbuf-loader
       wl-clipboard
+      xarchiver
+      zip
       zsh-powerlevel10k
+      zsh-fzf-history-search
       (unstable.vscode-with-extensions.override {
         vscodeExtensions = with unstable.vscode-extensions;
           [
@@ -354,6 +382,8 @@ in {
 
   programs.direnv.enable = true;
 
+  programs.adb.enable = true;
+
   programs.hyprland = {
     enable = true;
   };
@@ -375,5 +405,20 @@ in {
     "image/gif" = [
       "org.gnome.eog.desktop"
     ];
+  };
+
+
+  xdg = {
+    portal = {
+      enable = true;
+      xdgOpenUsePortal = true;
+      config = {
+        hyprland.default = ["hyprland"];
+      };
+      extraPortals = [
+        pkgs.xdg-desktop-portal-hyprland
+        pkgs.xdg-desktop-portal-gtk
+      ];
+    };
   };
 }
