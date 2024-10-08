@@ -22,6 +22,10 @@ in {
     options iwlwifi 11n_disable=1
   '';
 
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_unprivileged_port_start" = 80;
+  };
+
   hardware.enableRedistributableFirmware = true;
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -68,9 +72,20 @@ in {
     };
   };
 
+  services.tumbler.enable = true;
+
   services.udev.packages = [
     pkgs.android-udev-rules
   ];
+
+  services.clamav = {
+    daemon.enable = true;
+    updater.enable = true;
+    # scanner = {
+    #   enable = true;
+    #   interval = "*-*-* 22:00:00";
+    # };
+  };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -127,6 +142,8 @@ in {
     bottom
     curl
     delta
+    dive
+    docker-compose
     eza
     fd
     fzf
@@ -134,11 +151,11 @@ in {
     gcc
     gnumake
     killall
-    lazydocker
     lazygit
     libnotify
     magic-wormhole-rs
     pavucontrol
+    podman-tui
     ripgrep
     sshfs
     tig
@@ -171,7 +188,6 @@ in {
       bruno
       chafa
       clipman
-      cmus
       ctpv
       dbeaver-bin
       fastfetch
@@ -189,6 +205,7 @@ in {
       hyprpaper
       inkscape
       kooha
+      lazydocker
       lf
       libreoffice-fresh
       lxqt.lxqt-policykit
@@ -203,7 +220,6 @@ in {
       openvpn
       p7zip
       papirus-icon-theme
-      pcmanfm
       unstable.postman
       powertop
       remmina
@@ -252,7 +268,7 @@ in {
         zenith = "zenith -c 0 -d 0 -n 0";
         suspend = "systemctl suspend";
         wormhole = "wormhole-rs";
-        "restart-portal" = "systemctl --user restart xdg-desktop-portal-hyprland";
+        "restart-portal" = "systemctl --user restart xdg-desktop-portal-hyprland; systemctl --user restart xdg-desktop-portal";
       };
     };
     programs.zoxide = {
@@ -357,6 +373,15 @@ in {
     vimAlias = true;
   };
 
+  programs.xfconf.enable = true;
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs.xfce; [
+      thunar-archive-plugin
+      # thunar-volman
+    ];
+  };
+
   programs.git = {
     enable = true;
   };
@@ -377,6 +402,7 @@ in {
       # GTK_IM_MODULE = "fcitx";
       "XMODIFIERS=@im" = "fcitx";
       XIM_SERVERS = "fcitx";
+      DOCKER_HOST = "unix:///run/user/1000/podman/podman.sock";
     };
   };
 
@@ -388,8 +414,23 @@ in {
     enable = true;
   };
 
-  virtualisation.docker = {
-    enable = true;
+  virtualisation = {
+    containers = {
+      enable = true;
+    };
+
+    docker = {
+      enable = false;
+    };
+    podman = {
+      enable = true;
+
+      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      dockerCompat = true;
+
+      # Required for containers under podman-compose to be able to talk to each other.
+      defaultNetwork.settings.dns_enabled = true;
+    };
   };
 
   xdg.mime.defaultApplications = {
