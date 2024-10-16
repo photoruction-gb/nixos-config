@@ -208,6 +208,7 @@ in {
       lazydocker
       lf
       libreoffice-fresh
+      localstack
       lxqt.lxqt-policykit
       jq
       mako
@@ -237,7 +238,6 @@ in {
       waybar
       webp-pixbuf-loader
       wl-clipboard
-      xarchiver
       zip
       zsh-powerlevel10k
       zsh-fzf-history-search
@@ -374,6 +374,7 @@ in {
   };
 
   programs.xfconf.enable = true;
+  programs.file-roller.enable = true;
   programs.thunar = {
     enable = true;
     plugins = with pkgs.xfce; [
