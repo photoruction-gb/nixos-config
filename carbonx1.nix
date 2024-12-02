@@ -23,7 +23,7 @@ in {
   '';
 
   boot.kernel.sysctl = {
-    "net.ipv4.ip_unprivileged_port_start" = 80;
+    "net.ipv4.ip_unprivileged_port_start" = 53;
   };
 
   hardware.enableRedistributableFirmware = true;
@@ -91,7 +91,7 @@ in {
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   hardware.bluetooth = {
     enable = true; # enables support for Bluetooth
@@ -102,6 +102,16 @@ in {
         Experimental = true;
       };
     };
+  };
+  security.doas = {
+    enable = true;
+    extraRules = [
+      {
+        groups = ["wheel"];
+        persist = true;
+        keepEnv = true;
+      }
+    ];
   };
   security.rtkit.enable = true;
   security.polkit = {
@@ -136,9 +146,11 @@ in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    adwaita-icon-theme
     alejandra
     amdvlk
     bat
+    bibata-cursors
     bottom
     curl
     delta
@@ -154,6 +166,7 @@ in {
     lazygit
     libnotify
     magic-wormhole-rs
+    nwg-look
     pavucontrol
     podman-tui
     ripgrep
@@ -175,7 +188,7 @@ in {
   users.users.guillaume = {
     isNormalUser = true;
     description = "guillaume";
-    extraGroups = ["networkmanager" "wheel" "docker" "adbusers"];
+    extraGroups = ["networkmanager" "wheel" "docker" "adbusers" "podman"];
     shell = pkgs.zsh;
   };
 
@@ -184,20 +197,18 @@ in {
       authenticator
       aws-vault
       awscli2
-      bibata-cursors
       bruno
       chafa
       clipman
       ctpv
-      dbeaver-bin
+      unstable.deno
       fastfetch
       file
       firefox-wayland
       foot
       fuzzel
       gimp
-      gnome.adwaita-icon-theme
-      gnome.eog
+      eog
       grim
       httpie
       unstable.httpie-desktop
@@ -214,11 +225,13 @@ in {
       mako
       mate.atril
       mycli
+      mysql-workbench
       ncdu
       ncmpcpp
       nodejs_20
       unstable.obsidian
       openvpn
+      ouch
       p7zip
       papirus-icon-theme
       unstable.postman
@@ -228,8 +241,9 @@ in {
       scrcpy
       slurp
       ssm-session-manager-plugin
-      taskwarrior
+      taskwarrior3
       timewarrior
+      tree-sitter
       ungoogled-chromium
       unzip
       hyprcursor
@@ -344,7 +358,6 @@ in {
   # networking.firewall.enable = false;
   networking.firewall = {
     trustedInterfaces = [
-      "docker0"
     ];
     allowedTCPPorts = [
       3306
@@ -360,7 +373,8 @@ in {
   system.stateVersion = "23.11"; # Did you read the comment?
 
   i18n.inputMethod = {
-    enabled = "fcitx5";
+    type = "fcitx5";
+    enable = true;
     fcitx5.addons = with pkgs; [
       fcitx5-mozc
     ];
@@ -404,6 +418,7 @@ in {
       "XMODIFIERS=@im" = "fcitx";
       XIM_SERVERS = "fcitx";
       DOCKER_HOST = "unix:///run/user/1000/podman/podman.sock";
+      DOCKER_SOCK = "/run/user/1000/podman/podman.sock";
     };
   };
 
