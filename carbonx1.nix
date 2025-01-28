@@ -103,6 +103,18 @@ in {
       };
     };
   };
+  nixpkgs.config.packageOverrides = pkgs: {
+    intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
+  };
+  hardware.graphics = { # hardware.graphics since NixOS 24.11
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver # LIBVA_DRIVER_NAME=iHD
+      intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+      libvdpau-va-gl
+    ];
+  };
+
   security.doas = {
     enable = true;
     extraRules = [
@@ -167,6 +179,7 @@ in {
     libnotify
     magic-wormhole-rs
     nwg-look
+    openssl
     pavucontrol
     podman-tui
     ripgrep
@@ -178,6 +191,7 @@ in {
     usbutils
     vimPlugins.telescope-fzf-native-nvim
     wget
+    zellij
     zenith
     zsh
     zsh-fzf-history-search
@@ -194,6 +208,7 @@ in {
 
   home-manager.users.guillaume = {pkgs, ...}: {
     home.packages = with pkgs; [
+      appimage-run
       authenticator
       aws-vault
       awscli2
@@ -214,6 +229,7 @@ in {
       unstable.httpie-desktop
       hyprland
       hyprpaper
+      hyprlock
       inkscape
       kooha
       lazydocker
@@ -236,9 +252,11 @@ in {
       papirus-icon-theme
       unstable.postman
       powertop
+      python3
       remmina
       rustup
       scrcpy
+      unstable.slack
       slurp
       ssm-session-manager-plugin
       taskwarrior3
@@ -252,6 +270,7 @@ in {
       waybar
       webp-pixbuf-loader
       wl-clipboard
+      wl-screenrec
       zip
       zsh-powerlevel10k
       zsh-fzf-history-search
@@ -282,6 +301,7 @@ in {
         zenith = "zenith -c 0 -d 0 -n 0";
         suspend = "systemctl suspend";
         wormhole = "wormhole-rs";
+        slurp-rec = "wl-screenrec -g \"$(slurp)\" -f ~/Videos/video-$(date +%Y-%m-%d_%H-%M-%S).mp4";
         "restart-portal" = "systemctl --user restart xdg-desktop-portal-hyprland; systemctl --user restart xdg-desktop-portal";
       };
     };
@@ -350,6 +370,7 @@ in {
   services.blueman.enable = true;
   services.gvfs.enable = true;
   services.gnome.gnome-keyring.enable = true;
+  services.hypridle.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -419,6 +440,8 @@ in {
       XIM_SERVERS = "fcitx";
       DOCKER_HOST = "unix:///run/user/1000/podman/podman.sock";
       DOCKER_SOCK = "/run/user/1000/podman/podman.sock";
+      # vaapi
+      LIBVA_DRIVER_NAME = "iHD";
     };
   };
 
