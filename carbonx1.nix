@@ -235,7 +235,7 @@ in {
       lazydocker
       lf
       libreoffice-fresh
-      localstack
+      lua-language-server
       lxqt.lxqt-policykit
       jq
       mako
@@ -256,6 +256,7 @@ in {
       remmina
       rustup
       scrcpy
+      stylua
       unstable.slack
       slurp
       ssm-session-manager-plugin
@@ -265,7 +266,6 @@ in {
       ungoogled-chromium
       unzip
       hyprcursor
-      unstable.uhk-agent
       vlc
       waybar
       webp-pixbuf-loader
@@ -427,6 +427,7 @@ in {
     promptInit = ''
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       test -f ~/.p10k.zsh && source ~/.p10k.zsh
+      export PATH="$HOME/.cargo/bin:$PATH"
     '';
   };
 
