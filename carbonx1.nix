@@ -216,28 +216,28 @@ in {
       chafa
       clipman
       ctpv
-      unstable.deno
+      eog
       fastfetch
       file
       firefox-wayland
       foot
       fuzzel
       gimp
-      eog
       grim
       httpie
-      unstable.httpie-desktop
+      hurl
+      hyprcursor
       hyprland
-      hyprpaper
       hyprlock
+      hyprpaper
       inkscape
+      jq
       kooha
       lazydocker
       lf
       libreoffice-fresh
       lua-language-server
       lxqt.lxqt-policykit
-      jq
       mako
       mate.atril
       mycli
@@ -245,40 +245,42 @@ in {
       ncdu
       ncmpcpp
       nodejs_20
-      unstable.obsidian
       openvpn
       ouch
       p7zip
       papirus-icon-theme
-      unstable.postman
       powertop
       python3
       remmina
       rustup
       scrcpy
-      stylua
-      unstable.slack
       slurp
       ssm-session-manager-plugin
+      stylua
       taskwarrior3
       timewarrior
       tree-sitter
       ungoogled-chromium
+      unstable.deno
+      unstable.httpie-desktop
+      unstable.obsidian
+      unstable.postman
+      unstable.slack
       unzip
-      hyprcursor
       vlc
       waybar
       webp-pixbuf-loader
       wl-clipboard
       wl-screenrec
       zip
-      zsh-powerlevel10k
       zsh-fzf-history-search
+      zsh-powerlevel10k
       (unstable.vscode-with-extensions.override {
         vscodeExtensions = with unstable.vscode-extensions;
           [
             catppuccin.catppuccin-vsc
             vscodevim.vim
+            bmewburn.vscode-intelephense-client
             ms-vsliveshare.vsliveshare
           ]
           ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
@@ -378,6 +380,7 @@ in {
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
   networking.firewall = {
+    enable = false;
     trustedInterfaces = [
     ];
     allowedTCPPorts = [
@@ -446,7 +449,9 @@ in {
     };
   };
 
-  programs.direnv.enable = true;
+  programs.direnv = {
+    enable = true;
+  };
 
   programs.adb.enable = true;
 
