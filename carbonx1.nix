@@ -256,6 +256,7 @@ in {
       scrcpy
       slurp
       ssm-session-manager-plugin
+      starship
       stylua
       taskwarrior3
       timewarrior
@@ -296,7 +297,7 @@ in {
     programs.zsh = {
       enable = true;
       oh-my-zsh = {
-        enable = true;
+        enable = false;
       };
       shellAliases = {
         ls = "eza --icons --group-directories-first";
@@ -306,6 +307,9 @@ in {
         slurp-rec = "wl-screenrec -g \"$(slurp)\" -f ~/Videos/video-$(date +%Y-%m-%d_%H-%M-%S).mp4";
         "restart-portal" = "systemctl --user restart xdg-desktop-portal-hyprland; systemctl --user restart xdg-desktop-portal";
       };
+    };
+    programs.starship = {
+      enable = true;
     };
     programs.zoxide = {
       enable = true;
@@ -428,8 +432,8 @@ in {
   programs.zsh = {
     enable = true;
     promptInit = ''
-      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-      test -f ~/.p10k.zsh && source ~/.p10k.zsh
+      # source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+      # test -f ~/.p10k.zsh && source ~/.p10k.zsh
       export PATH="$HOME/.cargo/bin:$PATH"
     '';
   };
