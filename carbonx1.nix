@@ -269,6 +269,7 @@ in {
       unstable.slack
       unzip
       vlc
+      yazi
       waybar
       webp-pixbuf-loader
       wl-clipboard
@@ -308,8 +309,12 @@ in {
         "restart-portal" = "systemctl --user restart xdg-desktop-portal-hyprland; systemctl --user restart xdg-desktop-portal";
       };
     };
+    programs.yazi.enable = true;
     programs.starship = {
       enable = true;
+      settings = {
+        # format = "";
+      };
     };
     programs.zoxide = {
       enable = true;
