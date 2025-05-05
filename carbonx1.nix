@@ -190,6 +190,7 @@ in {
     unzip
     usbutils
     vimPlugins.telescope-fzf-native-nvim
+    vimPlugins.avante-nvim
     wget
     zellij
     zenith
@@ -220,6 +221,7 @@ in {
       fastfetch
       file
       firefox-wayland
+      font-awesome
       foot
       fuzzel
       gimp
@@ -234,7 +236,6 @@ in {
       jq
       kooha
       lazydocker
-      lf
       libreoffice-fresh
       lua-language-server
       lxqt.lxqt-policykit
@@ -252,16 +253,22 @@ in {
       powertop
       python3
       remmina
+      roboto
       rustup
       scrcpy
       slurp
+      source-han-sans
+      source-sans
+      source-sans-pro
       ssm-session-manager-plugin
       starship
       stylua
       taskwarrior3
       timewarrior
       tree-sitter
+      typst
       ungoogled-chromium
+      unstable.code-cursor
       unstable.deno
       unstable.httpie-desktop
       unstable.obsidian
@@ -275,8 +282,7 @@ in {
       wl-clipboard
       wl-screenrec
       zip
-      zsh-fzf-history-search
-      zsh-powerlevel10k
+      zsh-history-substring-search
       (unstable.vscode-with-extensions.override {
         vscodeExtensions = with unstable.vscode-extensions;
           [
@@ -297,8 +303,21 @@ in {
     ];
     programs.zsh = {
       enable = true;
-      oh-my-zsh = {
-        enable = false;
+      enableCompletion = true;
+      historySubstringSearch = {
+        enable = true;
+        searchUpKey = [
+          "^[[A"
+          "$terminfo[kcuu1]"
+        ];
+        searchDownKey = [
+          "^[[B"
+          "$terminfo[kcud1]"
+        ];
+      };
+      history = {
+        append = true;
+        expireDuplicatesFirst = true;
       };
       shellAliases = {
         ls = "eza --icons --group-directories-first";
@@ -309,6 +328,10 @@ in {
         "restart-portal" = "systemctl --user restart xdg-desktop-portal-hyprland; systemctl --user restart xdg-desktop-portal";
       };
     };
+    programs.fzf = {
+      enable = true;
+      enableZshIntegration = true;
+    };
     programs.yazi.enable = true;
     programs.starship = {
       enable = true;
@@ -316,22 +339,12 @@ in {
         # format = "";
       };
     };
+
     programs.zoxide = {
       enable = true;
       options = [
         "--cmd cd"
       ];
-    };
-    programs.lf = {
-      previewer = {
-        keybinding = "i";
-        source = "${pkgs.ctpv}/bin/ctpv";
-      };
-      extraConfig = ''
-        &${pkgs.ctpv}/bin/ctpv -s $id
-        cmd on-quit %${pkgs.ctpv}/bin/ctpv -e $id
-        set cleaner ${pkgs.ctpv}/bin/ctpvclear
-      '';
     };
 
     services.mpd = {
@@ -437,13 +450,12 @@ in {
   programs.zsh = {
     enable = true;
     promptInit = ''
-      # source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-      # test -f ~/.p10k.zsh && source ~/.p10k.zsh
       export PATH="$HOME/.cargo/bin:$PATH"
     '';
   };
 
   environment = {
+    pathsToLink = [ "/share/zsh" ];
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
       INPUT_METHOD = "fcitx";
