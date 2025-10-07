@@ -6,11 +6,7 @@
   pkgs,
   lib,
   ...
-}: let
-  unstable = import <nixos-unstable> {
-    config = {allowUnfree = true;};
-  };
-in {
+}:{
   imports = [<home-manager/nixos>];
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -28,6 +24,8 @@ in {
 
   hardware.enableRedistributableFirmware = true;
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -38,6 +36,10 @@ in {
   networking.networkmanager.enable = true;
   networking.extraHosts = ''
     127.0.0.1 minio-localhost
+    127.0.0.1 local-auth
+    127.0.0.1 ppmv-lambda
+    127.0.0.1 photoruction-minio
+    127.0.0.1 photoruction-sqs
   '';
 
   # Set your time zone.
@@ -57,6 +59,8 @@ in {
     LC_TELEPHONE = "en_AU.UTF-8";
     LC_TIME = "en_AU.UTF-8";
   };
+
+  services.envfs.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -92,7 +96,7 @@ in {
 
   # Enable sound with pipewire.
   # sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   hardware.bluetooth = {
     enable = true; # enables support for Bluetooth
     powerOnBoot = true; # powers up the default Bluetooth controller on boot
@@ -147,6 +151,20 @@ in {
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
+    wireplumber = {
+      enable = true;
+      configPackages = [
+        (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/51-mitigate-annoying-profile-switch.conf" ''
+          wireplumber.settings = {
+            bluetooth.autoswitch-to-headset-profile = false
+          }
+
+          monitor.bluez.properties = {
+            bluez5.roles = [ a2dp_sink a2dp_source ]
+          }
+        '')
+      ];
+    };
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -160,7 +178,6 @@ in {
   environment.systemPackages = with pkgs; [
     adwaita-icon-theme
     alejandra
-    amdvlk
     bat
     bibata-cursors
     bottom
@@ -206,7 +223,7 @@ in {
     extraGroups = ["networkmanager" "wheel" "docker" "adbusers" "podman"];
     shell = pkgs.zsh;
   };
-
+  home-manager.useGlobalPkgs = true;
   home-manager.users.guillaume = {pkgs, ...}: {
     home.packages = with pkgs; [
       appimage-run
@@ -215,8 +232,10 @@ in {
       awscli2
       bruno
       chafa
+      code-cursor
       clipman
       ctpv
+      dysk
       eog
       fastfetch
       file
@@ -245,6 +264,8 @@ in {
       mysql-workbench
       ncdu
       ncmpcpp
+      ncpamixer
+      nh
       nodejs_20
       openvpn
       ouch
@@ -255,6 +276,7 @@ in {
       remmina
       roboto
       rustup
+      rustdesk
       scrcpy
       slurp
       source-han-sans
@@ -262,18 +284,20 @@ in {
       source-sans-pro
       ssm-session-manager-plugin
       starship
+      static-web-server
       stylua
       taskwarrior3
       timewarrior
       tree-sitter
       typst
+      uhk-agent
       ungoogled-chromium
-      unstable.code-cursor
-      unstable.deno
-      unstable.httpie-desktop
-      unstable.obsidian
-      unstable.postman
-      unstable.slack
+      deno
+      httpie-desktop
+      obsidian
+      postman
+      proton-pass
+      slack
       unzip
       vlc
       yazi
@@ -283,8 +307,8 @@ in {
       wl-screenrec
       zip
       zsh-history-substring-search
-      (unstable.vscode-with-extensions.override {
-        vscodeExtensions = with unstable.vscode-extensions;
+      (vscode-with-extensions.override {
+        vscodeExtensions = with vscode-extensions;
           [
             catppuccin.catppuccin-vsc
             vscodevim.vim
@@ -368,7 +392,7 @@ in {
     packages = with pkgs; [
       noto-fonts-cjk-sans
       noto-fonts-cjk-serif
-      (nerdfonts.override {fonts = ["Hack"];})
+      nerd-fonts.hack
     ];
     fontconfig = {
       defaultFonts = {
