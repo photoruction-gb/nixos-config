@@ -79,7 +79,7 @@
   services.tumbler.enable = true;
 
   services.udev.packages = [
-    pkgs.android-udev-rules
+    # pkgs.android-udev-rules
   ];
 
   services.clamav = {
@@ -178,6 +178,7 @@
   environment.systemPackages = with pkgs; [
     adwaita-icon-theme
     alejandra
+    android-tools
     bat
     bibata-cursors
     bottom
@@ -198,7 +199,6 @@
     nwg-look
     openssl
     pavucontrol
-    podman-tui
     ripgrep
     sshfs
     tig
@@ -209,7 +209,6 @@
     vimPlugins.telescope-fzf-native-nvim
     vimPlugins.avante-nvim
     wget
-    zellij
     zenith
     zsh
     zsh-fzf-history-search
@@ -239,9 +238,11 @@
       eog
       fastfetch
       file
-      firefox-wayland
+      file-roller
+      firefox
       font-awesome
       foot
+      fresh-editor
       fuzzel
       gimp
       grim
@@ -253,17 +254,15 @@
       hyprpaper
       inkscape
       jq
-      kooha
       lazydocker
       libreoffice-fresh
       lua-language-server
       lxqt.lxqt-policykit
       mako
       mate.atril
-      mycli
+      mpc
       mysql-workbench
       ncdu
-      ncmpcpp
       ncpamixer
       nh
       nodejs_20
@@ -276,7 +275,6 @@
       remmina
       roboto
       rustup
-      rustdesk
       scrcpy
       slurp
       source-han-sans
@@ -284,7 +282,6 @@
       source-sans-pro
       ssm-session-manager-plugin
       starship
-      static-web-server
       stylua
       taskwarrior3
       timewarrior
@@ -292,7 +289,6 @@
       typst
       uhk-agent
       ungoogled-chromium
-      deno
       httpie-desktop
       obsidian
       postman
@@ -307,24 +303,13 @@
       wl-screenrec
       zip
       zsh-history-substring-search
-      (vscode-with-extensions.override {
-        vscodeExtensions = with vscode-extensions;
-          [
-            catppuccin.catppuccin-vsc
-            vscodevim.vim
-            bmewburn.vscode-intelephense-client
-            ms-vsliveshare.vsliveshare
-          ]
-          ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-            #       # {
-            #       #   name = "remote-ssh-edit";
-            #       #   publisher = "ms-vscode-remote";
-            #       #   version = "0.47.2";
-            #       #   sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
-            #       # }
-          ];
-      })
     ];
+
+    programs.television.enable = true;
+    programs.nix-search-tv = {
+      enable = true;
+      enableTelevisionIntegration = true;
+    };
     programs.zsh = {
       enable = true;
       enableCompletion = true;
@@ -369,6 +354,10 @@
       options = [
         "--cmd cd"
       ];
+    };
+
+    programs.ncmpcpp = {
+      enable = true;
     };
 
     services.mpd = {
@@ -458,7 +447,6 @@
   };
 
   programs.xfconf.enable = true;
-  programs.file-roller.enable = true;
   programs.thunar = {
     enable = true;
     plugins = with pkgs.xfce; [
@@ -497,8 +485,6 @@
   programs.direnv = {
     enable = true;
   };
-
-  programs.adb.enable = true;
 
   programs.hyprland = {
     enable = true;
