@@ -189,7 +189,6 @@
     eza
     fd
     fzf
-    fzf-zsh
     gcc
     gnumake
     killall
@@ -231,7 +230,7 @@
       awscli2
       bruno
       chafa
-      code-cursor
+      claude-code
       clipman
       ctpv
       dysk
@@ -244,6 +243,7 @@
       foot
       fresh-editor
       fuzzel
+      gettext
       gimp
       grim
       httpie
@@ -259,7 +259,7 @@
       lua-language-server
       lxqt.lxqt-policykit
       mako
-      mate.atril
+      atril
       mpc
       mysql-workbench
       ncdu
@@ -272,9 +272,11 @@
       papirus-icon-theme
       powertop
       python3
+      redisinsight
       remmina
       roboto
       rustup
+      rustdesk-flutter
       scrcpy
       slurp
       source-han-sans
@@ -305,6 +307,10 @@
       zsh-history-substring-search
     ];
 
+    programs.gh = {
+      enable = true;
+    };
+
     programs.television.enable = true;
     programs.nix-search-tv = {
       enable = true;
@@ -313,6 +319,7 @@
     programs.zsh = {
       enable = true;
       enableCompletion = true;
+      defaultKeymap = "emacs";
       historySubstringSearch = {
         enable = true;
         searchUpKey = [
@@ -341,7 +348,11 @@
       enable = true;
       enableZshIntegration = true;
     };
-    programs.yazi.enable = true;
+    programs.yazi = {
+      enable = true;
+      shellWrapperName = "y";
+    };
+
     programs.starship = {
       enable = true;
       settings = {
@@ -449,7 +460,7 @@
   programs.xfconf.enable = true;
   programs.thunar = {
     enable = true;
-    plugins = with pkgs.xfce; [
+    plugins = with pkgs; [
       thunar-archive-plugin
       # thunar-volman
     ];
