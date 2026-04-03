@@ -1,7 +1,8 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{
+let envelope = builtins.getFlake "/home/guillaume/nixos/local/envelope";
+in {
   config,
   pkgs,
   lib,
@@ -36,7 +37,15 @@
   networking.networkmanager.enable = true;
   networking.extraHosts = ''
     127.0.0.1 minio-localhost
-    127.0.0.1 local-auth
+    127.0.0.1 build.local
+    127.0.0.1 auth.build.local
+    127.0.0.1 auth-hoge.build.local
+    127.0.0.1 auth-fuga.build.local
+    127.0.0.1 auth-louvre.build.local
+    127.0.0.1 hoge.build.local
+    127.0.0.1 b-hoge.build.local
+    127.0.0.1 fuga.build.local
+    127.0.0.1 b-fuga.build.local
     127.0.0.1 ppmv-lambda
     127.0.0.1 photoruction-minio
     127.0.0.1 photoruction-sqs
@@ -235,6 +244,7 @@
       ctpv
       dysk
       eog
+      envelope.packages.${pkgs.stdenv.hostPlatform.system}.default
       fastfetch
       file
       file-roller
@@ -293,7 +303,6 @@
       ungoogled-chromium
       httpie-desktop
       obsidian
-      postman
       proton-pass
       slack
       unzip
@@ -309,6 +318,12 @@
 
     programs.gh = {
       enable = true;
+    };
+
+    programs.vscode = {
+      enable = true;
+      package = pkgs.vscodium.fhsWithPackages (ps: with ps; [
+      ]);
     };
 
     programs.television.enable = true;
