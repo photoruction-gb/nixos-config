@@ -1,14 +1,8 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-let envelope = builtins.getFlake "/home/guillaume/nixos/local/envelope";
-in {
-  config,
-  pkgs,
-  lib,
-  ...
-}:{
-  imports = [<home-manager/nixos>];
+{ config, pkgs, lib, envelope, claude-code, ... }: {
+  imports = [];
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -239,7 +233,7 @@ in {
       awscli2
       bruno
       chafa
-      claude-code
+      claude-code.packages.${pkgs.stdenv.hostPlatform.system}.default
       clipman
       ctpv
       dysk
@@ -282,7 +276,6 @@ in {
       papirus-icon-theme
       powertop
       python3
-      redisinsight
       remmina
       roboto
       rustup
@@ -318,6 +311,14 @@ in {
 
     programs.gh = {
       enable = true;
+    };
+
+    programs.git = {
+      enable = true;
+      signing.format = null;
+      settings = {
+        safe.directory = "/home/guillaume/nixos";
+      };
     };
 
     programs.vscode = {
