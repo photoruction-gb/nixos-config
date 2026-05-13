@@ -1,7 +1,7 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config, pkgs, lib, envelope, claude-code, ... }: {
+{ config, pkgs, lib, envelope, lazyjira, ... }: {
   imports = [];
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -28,6 +28,7 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
+  networking.hostName = "carbonx1";
   networking.networkmanager.enable = true;
   networking.extraHosts = ''
     127.0.0.1 minio-localhost
@@ -137,10 +138,13 @@
     enable = true;
   };
   services.udev.extraRules = ''
-    # uhk
+    # uhk (legacy vendor ID)
     SUBSYSTEM=="input", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", GROUP="input", MODE="0660"
     SUBSYSTEMS=="usb", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", MODE:="0666", TAG+="uaccess"
     KERNEL=="hidraw*", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", MODE="0666", TAG+="uaccess"
+    # uhk (UHK 60 v2, vendor 37a8)
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="37a8", MODE:="0666", TAG+="uaccess"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="37a8", MODE="0666", TAG+="uaccess"
   '';
 
   services.pipewire = {
@@ -225,7 +229,8 @@
     shell = pkgs.zsh;
   };
   home-manager.useGlobalPkgs = true;
-  home-manager.users.guillaume = {pkgs, ...}: {
+  home-manager.users.guillaume = {pkgs, ...}:
+  let localPkg = f: f.packages.${pkgs.stdenv.hostPlatform.system}.default; in {
     home.packages = with pkgs; [
       appimage-run
       authenticator
@@ -233,12 +238,13 @@
       awscli2
       bruno
       chafa
-      claude-code.packages.${pkgs.stdenv.hostPlatform.system}.default
+      claude-code
       clipman
       ctpv
       dysk
       eog
-      envelope.packages.${pkgs.stdenv.hostPlatform.system}.default
+      (localPkg envelope)
+      (localPkg lazyjira)
       fastfetch
       file
       file-roller
@@ -249,6 +255,8 @@
       fuzzel
       gettext
       gimp
+      gh-dash
+      gh-enhance
       grim
       httpie
       hurl
@@ -397,6 +405,12 @@
         }
       '';
     };
+
+    home.file.".mozilla/firefox/ghv6g53y.default/user.js".text = ''
+      user_pref("privacy.resistFingerprinting", false);
+      user_pref("privacy.fingerprintingProtection", true);
+      user_pref("privacy.fingerprintingProtection.overrides", "-JSDateTimeUTC");
+    '';
 
     # The state version is required and should stay at the version you
     # originally installed.

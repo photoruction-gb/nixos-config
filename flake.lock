@@ -1,24 +1,5 @@
 {
   "nodes": {
-    "claude-code": {
-      "inputs": {
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "path": "./local/claude-code",
-        "type": "path"
-      },
-      "original": {
-        "path": "./local/claude-code",
-        "type": "path"
-      },
-      "parent": []
-    },
     "envelope": {
       "inputs": {
         "flake-utils": [
@@ -63,11 +44,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775143651,
-        "narHash": "sha256-S0RqAyDPMTcv9vASMaE8eY1QexFysAOdnxUxFHIPOyE=",
+        "lastModified": 1776904464,
+        "narHash": "sha256-sBUCj7/4d3Hoevpu3oQp8ccJNA1EDeVmFi1F8O6VJro=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "d166a078541982a76f14d3e06e9665fa5c9ed85e",
+        "rev": "667b3c47325441e6a444faaf405bba76ec70338a",
         "type": "github"
       },
       "original": {
@@ -76,13 +57,32 @@
         "type": "github"
       }
     },
+    "lazyjira": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "path": "./local/lazyjira",
+        "type": "path"
+      },
+      "original": {
+        "path": "./local/lazyjira",
+        "type": "path"
+      },
+      "parent": []
+    },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1775036866,
-        "narHash": "sha256-ZojAnPuCdy657PbTq5V0Y+AHKhZAIwSIT2cb8UgAz/U=",
+        "lastModified": 1776548001,
+        "narHash": "sha256-ZSK0NL4a1BwVbbTBoSnWgbJy9HeZFXLYQizjb2DPF24=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "6201e203d09599479a3b3450ed24fa81537ebc4e",
+        "rev": "b12141ef619e0a9c1c84dc8c684040326f27cdcc",
         "type": "github"
       },
       "original": {
@@ -94,10 +94,10 @@
     },
     "root": {
       "inputs": {
-        "claude-code": "claude-code",
         "envelope": "envelope",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
+        "lazyjira": "lazyjira",
         "nixpkgs": "nixpkgs"
       }
     },

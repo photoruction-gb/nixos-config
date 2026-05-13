@@ -13,17 +13,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    claude-code = {
-      url = "path:./local/claude-code";
+    lazyjira = {
+      url = "path:./local/lazyjira";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, envelope, claude-code, ... }: {
+  outputs = { self, nixpkgs, home-manager, envelope, lazyjira, ... }: {
     nixosConfigurations.carbonx1 = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = { inherit envelope claude-code; };
+      specialArgs = { inherit envelope lazyjira; };
       modules = [
         home-manager.nixosModules.home-manager
         ./hardware-configuration.nix
