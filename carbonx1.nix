@@ -1,8 +1,11 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config, pkgs, lib, envelope, lazyjira, ... }: {
+{ config, pkgs, lib, envelope, ... }: {
   imports = [];
+
+  nixpkgs.config.permittedInsecurePackages = [
+  ];
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -20,6 +23,7 @@
   hardware.enableRedistributableFirmware = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.trusted-users = [ "root" "guillaume" ];
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -33,14 +37,8 @@
   networking.extraHosts = ''
     127.0.0.1 minio-localhost
     127.0.0.1 build.local
+    127.0.0.1 build.auth.local
     127.0.0.1 auth.build.local
-    127.0.0.1 auth-hoge.build.local
-    127.0.0.1 auth-fuga.build.local
-    127.0.0.1 auth-louvre.build.local
-    127.0.0.1 hoge.build.local
-    127.0.0.1 b-hoge.build.local
-    127.0.0.1 fuga.build.local
-    127.0.0.1 b-fuga.build.local
     127.0.0.1 ppmv-lambda
     127.0.0.1 photoruction-minio
     127.0.0.1 photoruction-sqs
@@ -229,10 +227,12 @@
     shell = pkgs.zsh;
   };
   home-manager.useGlobalPkgs = true;
-  home-manager.users.guillaume = {pkgs, ...}:
+  home-manager.users.guillaume = {pkgs, lib, ...}:
   let localPkg = f: f.packages.${pkgs.stdenv.hostPlatform.system}.default; in {
     home.packages = with pkgs; [
+      (localPkg envelope)
       appimage-run
+      atril
       authenticator
       aws-vault
       awscli2
@@ -241,10 +241,9 @@
       claude-code
       clipman
       ctpv
+      devenv
       dysk
       eog
-      (localPkg envelope)
-      (localPkg lazyjira)
       fastfetch
       file
       file-roller
@@ -254,11 +253,12 @@
       fresh-editor
       fuzzel
       gettext
-      gimp
       gh-dash
       gh-enhance
+      gimp
       grim
       httpie
+      httpie-desktop
       hurl
       hyprcursor
       hyprland
@@ -271,24 +271,26 @@
       lua-language-server
       lxqt.lxqt-policykit
       mako
-      atril
       mpc
       mysql-workbench
       ncdu
       ncpamixer
       nh
-      nodejs_20
+      obsidian
       openvpn
       ouch
       p7zip
       papirus-icon-theme
       powertop
+      proton-pass
       python3
       remmina
       roboto
-      rustup
+      rtk
       rustdesk-flutter
+      rustup
       scrcpy
+      slack
       slurp
       source-han-sans
       source-sans
@@ -302,20 +304,25 @@
       typst
       uhk-agent
       ungoogled-chromium
-      httpie-desktop
-      obsidian
-      proton-pass
-      slack
       unzip
       vlc
-      yazi
       waybar
       webp-pixbuf-loader
       wl-clipboard
       wl-screenrec
+      yazi
       zip
       zsh-history-substring-search
     ];
+
+    # UHK agent copies firmware docs from the read-only Nix store, so the files
+    # land with r--r--r-- permissions. Fix them after each switch so the agent
+    # can overwrite them on the next run.
+    home.activation.fixUhkSmartMacroPerms = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      if [ -d "$HOME/.config/uhk-agent/smart-macro-docs" ]; then
+        $DRY_RUN_CMD chmod -R u+w "$HOME/.config/uhk-agent/smart-macro-docs"
+      fi
+    '';
 
     programs.gh = {
       enable = true;
@@ -329,11 +336,11 @@
       };
     };
 
-    programs.vscode = {
-      enable = true;
-      package = pkgs.vscodium.fhsWithPackages (ps: with ps; [
-      ]);
-    };
+    # programs.vscodium = {
+    #   enable = true;
+    #   # package = pkgs.vscodium.fhsWithPackages (ps: with ps; [
+    #   # ]);
+    # };
 
     programs.television.enable = true;
     programs.nix-search-tv = {
@@ -367,6 +374,10 @@
         slurp-rec = "wl-screenrec -g \"$(slurp)\" -f ~/Videos/video-$(date +%Y-%m-%d_%H-%M-%S).mp4";
         "restart-portal" = "systemctl --user restart xdg-desktop-portal-hyprland; systemctl --user restart xdg-desktop-portal";
       };
+      initContent = ''
+        eval "$(devenv hook zsh)"
+        eval "$(zoxide init zsh --cmd cd)"
+      '';
     };
     programs.fzf = {
       enable = true;
@@ -386,6 +397,7 @@
 
     programs.zoxide = {
       enable = true;
+      enableZshIntegration = false;
       options = [
         "--cmd cd"
       ];
