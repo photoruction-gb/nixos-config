@@ -242,6 +242,7 @@
       clipman
       ctpv
       devenv
+      dig
       dysk
       eog
       fastfetch
@@ -289,6 +290,7 @@
       rtk
       rustdesk-flutter
       rustup
+      rustlings
       scrcpy
       slack
       slurp
