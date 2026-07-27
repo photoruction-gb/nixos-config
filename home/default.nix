@@ -8,6 +8,7 @@
     ./uhk.nix
     ./niri.nix
     ./noctalia.nix
+    ./hypridle.nix
   ];
 
   home.packages = with pkgs; [

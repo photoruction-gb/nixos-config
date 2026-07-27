@@ -49,6 +49,11 @@ in {
   services.cliphist.enable = true;
 
   programs.niri.settings = {
+    environment = {
+      "NIXOS_OZONE_WL" = "1";
+      "QS_ICON_THEME" = "Papirus-Dark";
+    };
+
     input = {
       keyboard.xkb = {
         layout = "us";
@@ -57,10 +62,15 @@ in {
       touchpad = {
         natural-scroll = false;
       };
-      focus-follows-mouse.enable = true;
+      focus-follows-mouse = {
+        enable = true;
+        max-scroll-amount = "0%";
+      };
     };
 
     xwayland-satellite.enable = true;
+
+    gestures.hot-corners.enable = false;
 
     cursor = {
       theme = "Bibata-Modern-Classic";
@@ -81,10 +91,42 @@ in {
     };
 
     layout = {
-      gaps = 5;
+      gaps = 8;
+      center-focused-column = "never";
+      preset-column-widths = [
+        { proportion = 0.5; }
+        { proportion = 1.0; }
+      ];
+      preset-window-heights = [
+        { proportion = 0.5; }
+        { proportion = 1.0; }
+      ];
+      default-column-width = { proportion = 0.5; };
     };
 
     screenshot-path = "~/screenshots/%Y-%m-%d_%H-%M-%S.png";
+
+    window-rules = [
+      {
+        matches = [
+          {
+            app-id = "firefox$";
+            title = "^Picture-in-Picture$";
+          }
+        ];
+        open-floating = true;
+      }
+      {
+        matches = [];
+        geometry-corner-radius = {
+          bottom-left = 2.0;
+          bottom-right = 2.0;
+          top-left = 2.0;
+          top-right = 2.0;
+        };
+        clip-to-geometry = true;
+      }
+    ];
 
     spawn-at-startup = [
       { argv = ["fcitx5" "-d"]; }

@@ -20,7 +20,6 @@
   services.blueman.enable = true;
   services.gvfs.enable = true;
   services.gnome.gnome-keyring.enable = true;
-  services.hypridle.enable = true;
 
   programs.hyprland = {
     enable = true;
