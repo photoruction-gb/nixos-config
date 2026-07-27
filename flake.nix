@@ -8,17 +8,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";
-    envelope = {
-      url = "path:./local/envelope";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
+    # envelope = {
+    #   url = "path:./local/envelope";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    #   inputs.flake-utils.follows = "flake-utils";
+    # };
   };
 
-  outputs = { self, nixpkgs, home-manager, envelope, ... }: {
+  outputs = { self, nixpkgs, home-manager, ... }: {
     nixosConfigurations.carbonx1 = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = { inherit envelope; };
       modules = [
         home-manager.nixosModules.home-manager
         ./hardware-configuration.nix

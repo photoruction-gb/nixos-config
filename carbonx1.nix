@@ -1,7 +1,7 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config, pkgs, lib, envelope, ... }: {
+{ config, pkgs, lib, ... }: {
   imports = [];
 
   nixpkgs.config.permittedInsecurePackages = [
@@ -211,7 +211,7 @@
     unzip
     usbutils
     vimPlugins.telescope-fzf-native-nvim
-    vimPlugins.avante-nvim
+    # vimPlugins.avante-nvim
     wget
     zenith
     zsh
@@ -230,7 +230,6 @@
   home-manager.users.guillaume = {pkgs, lib, ...}:
   let localPkg = f: f.packages.${pkgs.stdenv.hostPlatform.system}.default; in {
     home.packages = with pkgs; [
-      (localPkg envelope)
       appimage-run
       atril
       authenticator
