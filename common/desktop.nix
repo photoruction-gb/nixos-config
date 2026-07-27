@@ -26,6 +26,13 @@
     enable = true;
   };
 
+  # niri is available alongside hyprland as an alternative compositor;
+  # pick whichever session you want at the login/TTY prompt.
+  programs.niri = {
+    enable = true;
+    package = pkgs.niri;
+  };
+
   programs.xfconf.enable = true;
   programs.thunar = {
     enable = true;

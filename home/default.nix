@@ -6,6 +6,8 @@
     ./mpd.nix
     ./firefox.nix
     ./uhk.nix
+    ./niri.nix
+    ./noctalia.nix
   ];
 
   home.packages = with pkgs; [
@@ -14,10 +16,11 @@
     authenticator
     aws-vault
     awscli2
+    brightnessctl
     bruno
     chafa
     claude-code
-    clipman
+    cliphist
     ctpv
     devenv
     dig
@@ -90,6 +93,7 @@
     webp-pixbuf-loader
     wl-clipboard
     wl-screenrec
+    xwayland-satellite
     yazi
     zip
     zsh-history-substring-search
