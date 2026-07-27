@@ -20,8 +20,8 @@
       system = "x86_64-linux";
       modules = [
         home-manager.nixosModules.home-manager
-        ./hardware-configuration.nix
-        ./carbonx1.nix
+        ./hosts/carbonx1/hardware-configuration.nix
+        ./hosts/carbonx1/configuration.nix
       ];
     };
   };

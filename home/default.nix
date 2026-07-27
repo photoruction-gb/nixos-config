@@ -1,0 +1,101 @@
+{ config, pkgs, lib, ... }: {
+  imports = [
+    ./zsh.nix
+    ./git.nix
+    ./cli-tools.nix
+    ./mpd.nix
+    ./firefox.nix
+    ./uhk.nix
+  ];
+
+  home.packages = with pkgs; [
+    appimage-run
+    atril
+    authenticator
+    aws-vault
+    awscli2
+    bruno
+    chafa
+    claude-code
+    clipman
+    ctpv
+    devenv
+    dig
+    dysk
+    eog
+    fastfetch
+    file
+    file-roller
+    firefox
+    font-awesome
+    foot
+    fresh-editor
+    fuzzel
+    gettext
+    gh-dash
+    gh-enhance
+    gimp
+    grim
+    httpie
+    httpie-desktop
+    hurl
+    hyprcursor
+    hyprland
+    hyprlock
+    hyprpaper
+    inkscape
+    jq
+    lazydocker
+    libreoffice-fresh
+    lua-language-server
+    lxqt.lxqt-policykit
+    mako
+    mpc
+    mysql-workbench
+    ncdu
+    ncpamixer
+    nh
+    obsidian
+    openvpn
+    ouch
+    p7zip
+    papirus-icon-theme
+    powertop
+    proton-pass
+    python3
+    remmina
+    roboto
+    rtk
+    rustdesk-flutter
+    rustup
+    rustlings
+    scrcpy
+    slack
+    slurp
+    source-han-sans
+    source-sans
+    source-sans-pro
+    ssm-session-manager-plugin
+    starship
+    stylua
+    taskwarrior3
+    timewarrior
+    tree-sitter
+    typst
+    uhk-agent
+    ungoogled-chromium
+    unzip
+    vlc
+    waybar
+    webp-pixbuf-loader
+    wl-clipboard
+    wl-screenrec
+    yazi
+    zip
+    zsh-history-substring-search
+  ];
+
+  # The state version is required and should stay at the version you
+  # originally installed.
+  home.stateVersion = "23.11";
+}
