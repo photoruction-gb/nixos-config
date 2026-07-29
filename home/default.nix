@@ -39,14 +39,10 @@
     gh-dash
     gh-enhance
     gimp
-    grim
     httpie
     httpie-desktop
     hurl
-    hyprcursor
-    hyprland
     hyprlock
-    hyprpaper
     inkscape
     jq
     lazydocker
@@ -90,7 +86,6 @@
     ungoogled-chromium
     unzip
     vlc
-    waybar
     webp-pixbuf-loader
     wl-clipboard
     wl-screenrec

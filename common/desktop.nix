@@ -21,12 +21,6 @@
   services.gvfs.enable = true;
   services.gnome.gnome-keyring.enable = true;
 
-  programs.hyprland = {
-    enable = true;
-  };
-
-  # niri is available alongside hyprland as an alternative compositor;
-  # pick whichever session you want at the login/TTY prompt.
   programs.niri = {
     enable = true;
     package = pkgs.niri;
@@ -61,11 +55,7 @@
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;
-    config = {
-      hyprland.default = ["hyprland"];
-    };
     extraPortals = [
-      pkgs.xdg-desktop-portal-hyprland
       pkgs.xdg-desktop-portal-gtk
     ];
   };

@@ -1,7 +1,6 @@
 { ... }: {
   # Mirrors kuma-giyomu/nixos-system-flake's home/home.nix hypridle block: niri-native
-  # power-on/off-monitors IPC instead of Hyprland's `hyprctl dispatch dpms`, since niri
-  # is the primary compositor here (hyprland kept only as a manual fallback).
+  # power-on/off-monitors IPC instead of Hyprland's `hyprctl dispatch dpms`.
   services.hypridle = {
     enable = true;
     settings = {

@@ -77,7 +77,6 @@ in {
       size = 24;
     };
 
-    # Same physical layout as ~/.config/hypr/hyprland.conf.
     outputs = {
       "eDP-1" = {
         scale = 1;

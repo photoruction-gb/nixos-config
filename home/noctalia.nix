@@ -1,6 +1,5 @@
 { ... }: {
-  # Matches kuma-giyomu/nixos-system-flake's home/noctilia.nix; replaces waybar
-  # under niri only (hyprland keeps waybar, see home/niri.nix + hyprland.conf).
+  # Matches kuma-giyomu/nixos-system-flake's home/noctilia.nix.
   programs.noctalia-shell = {
     enable = true;
     settings = {
