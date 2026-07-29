@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, inputs, ... }:
+let
+  system = pkgs.stdenv.hostPlatform.system;
+  flakePkg = name: inputs.${name}.packages.${system}.default;
+in
+{
   imports = [
     ./zsh.nix
     ./git.nix
@@ -93,6 +98,8 @@
     yazi
     zip
     zsh-history-substring-search
+  ] ++ [
+    (flakePkg "markdown-reader")
   ];
 
   # The state version is required and should stay at the version you
