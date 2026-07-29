@@ -214,28 +214,28 @@ in {
       "Mod+K" = { action.focus-window-up = []; };
       "Mod+L" = { action.focus-column-right = []; };
 
-      "Mod+Ctrl+Left" = { action.move-column-left = []; };
-      "Mod+Ctrl+Down" = { action.move-window-down = []; };
-      "Mod+Ctrl+Up" = { action.move-window-up = []; };
-      "Mod+Ctrl+Right" = { action.move-column-right = []; };
-      "Mod+Ctrl+H" = { action.move-column-left = []; };
-      "Mod+Ctrl+J" = { action.move-window-down = []; };
-      "Mod+Ctrl+K" = { action.move-window-up = []; };
-      "Mod+Ctrl+L" = { action.move-column-right = []; };
+      "Mod+Ctrl+Left" = { action.focus-monitor-left = []; };
+      "Mod+Ctrl+Down" = { action.focus-monitor-down = []; };
+      "Mod+Ctrl+Up" = { action.focus-monitor-up = []; };
+      "Mod+Ctrl+Right" = { action.focus-monitor-right = []; };
+      "Mod+Ctrl+H" = { action.focus-monitor-left = []; };
+      "Mod+Ctrl+J" = { action.focus-monitor-down = []; };
+      "Mod+Ctrl+K" = { action.focus-monitor-up = []; };
+      "Mod+Ctrl+L" = { action.focus-monitor-right = []; };
 
       "Mod+Home" = { action.focus-column-first = []; };
       "Mod+End" = { action.focus-column-last = []; };
       "Mod+Ctrl+Home" = { action.move-column-to-first = []; };
       "Mod+Ctrl+End" = { action.move-column-to-last = []; };
 
-      "Mod+Shift+Left" = { action.focus-monitor-left = []; };
-      "Mod+Shift+Down" = { action.focus-monitor-down = []; };
-      "Mod+Shift+Up" = { action.focus-monitor-up = []; };
-      "Mod+Shift+Right" = { action.focus-monitor-right = []; };
-      "Mod+Shift+H" = { action.focus-monitor-left = []; };
-      "Mod+Shift+J" = { action.focus-monitor-down = []; };
-      "Mod+Shift+K" = { action.focus-monitor-up = []; };
-      "Mod+Shift+L" = { action.focus-monitor-right = []; };
+      "Mod+Shift+Left" = { action.move-column-left = []; };
+      "Mod+Shift+Down" = { action.move-window-down = []; };
+      "Mod+Shift+Up" = { action.move-window-up = []; };
+      "Mod+Shift+Right" = { action.move-column-right = []; };
+      "Mod+Shift+H" = { action.move-column-left = []; };
+      "Mod+Shift+J" = { action.move-window-down = []; };
+      "Mod+Shift+K" = { action.move-window-up = []; };
+      "Mod+Shift+L" = { action.move-column-right = []; };
 
       "Mod+Shift+M" = { action.move-workspace-to-monitor-next = []; };
 
