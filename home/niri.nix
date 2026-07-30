@@ -87,6 +87,11 @@ in {
         scale = 1;
         position = { x = 2560; y = 0; };
       };
+      "Dell Inc. DELL S3425DW 3YLQQH4" = {
+        mode = { width = 3440; height = 1440; refresh = 60.0; };
+        scale = 1;
+        position = { x = -440; y = -1440; };
+      };
     };
 
     layout = {
