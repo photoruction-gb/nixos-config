@@ -92,6 +92,11 @@ in {
         scale = 1;
         position = { x = -440; y = -1440; };
       };
+      "Dell Inc. DELL SE2426H 4SMPDH4" = {
+        mode = { width = 1980; height = 1080; refresh = 60.0; };
+        scale = 1;
+        position = { x = 290; y = -1080; };
+      };
     };
 
     layout = {

@@ -1,7 +1,35 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 let
   wallpaperPath = "${config.home.homeDirectory}/Pictures/Wallpapers/PhotoructionDesktopPicture.png";
+
+  # niri spawns noctalia-shell once at startup and the running quickshell process
+  # has no reliable way to notice that home-manager retargeted
+  # ~/.config/noctalia/settings.json to a new store path (see memory:
+  # noctalia-shell-restart). This kills the real process (quickshell, not the
+  # noctalia-shell launcher) and relaunches it detached from the current shell.
+  restart-noctalia = pkgs.writeShellApplication {
+    name = "restart-noctalia";
+    runtimeInputs = [ pkgs.procps pkgs.coreutils config.programs.noctalia-shell.package ];
+    text = ''
+      # The Nix-wrapped binary's /proc/*/comm is truncated to ".quickshell-wra",
+      # so `pkill -x quickshell` never matches anything. Match on the full
+      # command line instead.
+      pkill -f 'bin/quickshell' || true
+
+      # Wait for the old process to actually exit before relaunching, otherwise
+      # noctalia-shell refuses to start with "instance already running".
+      for _ in $(seq 1 25); do
+        pgrep -f 'bin/quickshell' >/dev/null || break
+        sleep 0.2
+      done
+
+      nohup noctalia-shell >/tmp/noctalia-shell.log 2>&1 &
+      disown
+    '';
+  };
 in {
+  home.packages = [ restart-noctalia ];
+
   # Matches kuma-giyomu/nixos-system-flake's home/noctilia.nix.
   programs.noctalia-shell = {
     enable = true;
