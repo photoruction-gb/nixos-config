@@ -102,6 +102,10 @@ in {
     layout = {
       gaps = 8;
       center-focused-column = "never";
+      focus-ring = {
+        width = 5;
+        active.color = "#ff0000";
+      };
       preset-column-widths = [
         { proportion = 0.5; }
         { proportion = 1.0; }
@@ -125,16 +129,6 @@ in {
         ];
         open-floating = true;
       }
-      {
-        matches = [];
-        geometry-corner-radius = {
-          bottom-left = 2.0;
-          bottom-right = 2.0;
-          top-left = 2.0;
-          top-right = 2.0;
-        };
-        clip-to-geometry = true;
-      }
     ];
 
     spawn-at-startup = [
@@ -146,6 +140,11 @@ in {
     ];
 
     hotkey-overlay.skip-at-startup = true;
+
+    # Server-side decorations let niri draw the focus ring/border *around* the
+    # window instead of behind it, which stops the ring color from bleeding
+    # through windows with a transparent background (e.g. foot).
+    prefer-no-csd = true;
 
     # Bind set matches kuma-giyomu/nixos-system-flake's home/niri.nix.
     binds = {
