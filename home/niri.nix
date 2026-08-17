@@ -83,7 +83,7 @@ in {
         position = { x = 0; y = 0; };
       };
       "LG Electronics LG ULTRAWIDE 602NTHME0257" = {
-        mode = { width = 3440; height = 1440; refresh = 60.0; };
+        mode = { width = 3440; height = 1440; refresh = 84.957; };
         scale = 1;
         position = { x = 2560; y = 0; };
       };

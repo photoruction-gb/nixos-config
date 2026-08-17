@@ -73,6 +73,9 @@ in {
           right = [
             {
               id = "Tray";
+              # blueman's tooltip toggles "Bluetooth Enabled"/"Disabled"; Slack's
+              # tooltip is unstable prose, so it can't be pinned reliably.
+              pinned = [ "Bluetooth*" ];
             }
             {
               id = "NotificationHistory";
