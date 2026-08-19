@@ -13,6 +13,13 @@
       url = "github:noctalia-dev/noctalia/legacy-v4";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # v5: from-scratch C++/OpenGL-ES rewrite, still in Beta upstream. Kept
+    # alongside legacy-v4 so home/noctalia-version.nix can toggle between them
+    # (see memory: noctalia_v5_trial).
+    noctalia-v5 = {
+      url = "github:noctalia-dev/noctalia";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     markdown-reader = {
       url = "github:leboiko/markdown-reader";
       inputs.nixpkgs.follows = "nixpkgs";
