@@ -1,7 +1,4 @@
 { pkgs, ... }: let
-  noctaliaVersion = import ./noctalia-version.nix;
-  noctaliaSpawnCommand = if noctaliaVersion == "v5" then "noctalia" else "noctalia-shell";
-
   # Mirrors kuma-giyomu/nixos-system-flake's home/niri.nix toggle-monitor helper.
   toggle-monitor = pkgs.writeShellApplication {
     name = "niri-toggle-monitor";
@@ -138,7 +135,7 @@ in {
       { argv = ["fcitx5" "-d"]; }
       { argv = ["udiskie" "--tray"]; }
       { argv = ["blueman-applet"]; }
-      { argv = [noctaliaSpawnCommand]; }
+      { argv = ["noctalia"]; }
       { argv = ["lxqt-policykit-agent"]; }
     ];
 
