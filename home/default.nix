@@ -51,7 +51,7 @@ in
     inkscape
     jq
     lazydocker
-    libreoffice-fresh
+    libreoffice-stable
     lua-language-server
     lxqt.lxqt-policykit
     mako
@@ -85,6 +85,7 @@ in
     stylua
     taskwarrior3
     timewarrior
+    timg
     tree-sitter
     typst
     uhk-agent

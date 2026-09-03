@@ -8,6 +8,14 @@
 
   boot.initrd.luks.devices."luks-6ab574dc-dbf0-4a1d-b8a3-98a9e02fa1df".device = "/dev/disk/by-uuid/6ab574dc-dbf0-4a1d-b8a3-98a9e02fa1df";
 
+  # Root and swap are two independent LUKS volumes unlocked via a single
+  # broadcast password prompt in the initrd. Systemd's default 90s
+  # DefaultTimeoutStartSec can expire before the passphrase is entered,
+  # dropping the boot into emergency mode even though the unlock itself
+  # would have succeeded moments later. Widen the window so a normal
+  # (if slightly slow) unlock completes before the dependency chain times out.
+  boot.initrd.systemd.settings.Manager.DefaultTimeoutStartSec = "300s";
+
   boot.extraModprobeConfig = ''
     options iwlwifi 11n_disable=1
   '';
