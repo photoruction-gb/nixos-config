@@ -6,6 +6,7 @@ in
 {
   imports = [
     ./zsh.nix
+    ./direnv.nix
     ./git.nix
     ./cli-tools.nix
     ./mpd.nix
