@@ -1,6 +1,7 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, inputs, ... }: {
   nixpkgs.config.packageOverrides = pkgs: {
     intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
+    masume = pkgs.callPackage ../pkgs/masume.nix { src = inputs.masume; };
   };
   hardware.graphics = { # hardware.graphics since NixOS 24.11
     enable = true;
@@ -36,6 +37,7 @@
     lazygit
     libnotify
     magic-wormhole-rs
+    masume
     nwg-look
     openssl
     pavucontrol

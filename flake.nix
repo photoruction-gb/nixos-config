@@ -18,6 +18,12 @@
       url = "github:leboiko/markdown-reader";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # masume ships no flake of its own; only its source is needed, built
+    # locally in ./pkgs/masume.nix.
+    masume = {
+      url = "github:turanmahmudov/masume";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {

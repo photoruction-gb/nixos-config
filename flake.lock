@@ -77,6 +77,22 @@
         "type": "github"
       }
     },
+    "masume": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1788831995,
+        "narHash": "sha256-pWEQ4KDsje3fMB29Ea8v0T+UtJtTdszO07Nnm/pe0xE=",
+        "owner": "turanmahmudov",
+        "repo": "masume",
+        "rev": "b53cdd590b772d08186f833487d13fd04eade7c4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "turanmahmudov",
+        "repo": "masume",
+        "type": "github"
+      }
+    },
     "niri": {
       "inputs": {
         "niri-stable": "niri-stable",
@@ -206,6 +222,7 @@
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "markdown-reader": "markdown-reader",
+        "masume": "masume",
         "niri": "niri",
         "nixpkgs": "nixpkgs_2",
         "noctalia": "noctalia"

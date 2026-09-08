@@ -55,7 +55,6 @@ in
     libreoffice-stable
     lua-language-server
     lxqt.lxqt-policykit
-    mako
     mpc
     mysql-workbench
     ncdu
