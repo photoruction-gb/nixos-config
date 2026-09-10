@@ -26,6 +26,7 @@
     bottom
     curl
     delta
+    difftastic
     dive
     docker-compose
     eza
