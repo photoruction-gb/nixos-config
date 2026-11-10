@@ -1,6 +1,6 @@
 { lib, buildGoModule, go_1_27, src }:
 
-# masume (github.com/turanmahmudov/masume) is a terminal database client for
+# masume (github.com/masumedb/masume) is a terminal database client for
 # PostgreSQL, MySQL, SQLite, MongoDB, and protocol-compatible servers.
 #
 # go.mod declares `go 1.27`; nixpkgs' default `go` in this channel is older,
@@ -14,7 +14,7 @@ buildGoModule.override { go = go_1_27; } rec {
 
   # Recompute with `nix build --rebuild` (or by setting this to
   # lib.fakeHash and reading the mismatch) whenever go.mod/go.sum change.
-  vendorHash = "sha256-MJo0X9X0SH75CeKKFb799C2m8SC/Qs1pyTK3ircX4KQ=";
+  vendorHash = "sha256-Mzm9SU2mTXLVhvKNyRSEOyMmEaAJWr/7j2WaFjBZZ3s=";
 
   env.CGO_ENABLED = 0;
 
@@ -22,7 +22,7 @@ buildGoModule.override { go = go_1_27; } rec {
     "-s"
     "-w"
     "-X"
-    "github.com/turanmahmudov/masume/internal/cli.Version=${version}"
+    "github.com/masumedb/masume/internal/cli.Version=${version}"
   ];
 
   # The upstream test suite needs Docker-composed database servers and a
@@ -31,7 +31,7 @@ buildGoModule.override { go = go_1_27; } rec {
 
   meta = {
     description = "Terminal database client for PostgreSQL, MySQL, SQLite, MongoDB, and compatible servers";
-    homepage = "https://github.com/turanmahmudov/masume";
+    homepage = "https://github.com/masumedb/masume";
     license = lib.licenses.asl20;
     mainProgram = "masume";
     platforms = lib.platforms.unix;

@@ -11,6 +11,7 @@ in
     ./cli-tools.nix
     ./mpd.nix
     ./firefox.nix
+    ./chromium.nix
     ./uhk.nix
     ./niri.nix
     ./noctalia.nix
@@ -23,6 +24,8 @@ in
     authenticator
     aws-vault
     awscli2
+    beads
+    bluetui
     brightnessctl
     bruno
     chafa
@@ -56,7 +59,6 @@ in
     lua-language-server
     lxqt.lxqt-policykit
     mpc
-    mysql-workbench
     ncdu
     ncpamixer
     nh
@@ -83,13 +85,13 @@ in
     ssm-session-manager-plugin
     starship
     stylua
+    systemctl-tui
     taskwarrior3
     timewarrior
     timg
     tree-sitter
     typst
     uhk-agent
-    ungoogled-chromium
     unzip
     vlc
     webp-pixbuf-loader

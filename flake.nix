@@ -21,7 +21,7 @@
     # masume ships no flake of its own; only its source is needed, built
     # locally in ./pkgs/masume.nix.
     masume = {
-      url = "github:turanmahmudov/masume";
+      url = "github:masumedb/masume/v0.0.17";
       flake = false;
     };
   };
