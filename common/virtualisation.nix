@@ -2,6 +2,13 @@
   virtualisation = {
     containers = {
       enable = true;
+
+      # Rendered to /etc/containers/containers.conf.d/00-nixos.conf.
+      containersConf.settings = {
+        # Fixed upstream DNS so containers keep resolving after switching networks (home/office).
+        # aardvark-dns still answers container names and forwards the rest to these.
+        containers.dns_servers = ["1.1.1.1" "8.8.8.8"];
+      };
     };
 
     docker = {
