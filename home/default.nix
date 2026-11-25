@@ -16,6 +16,7 @@ in
     ./niri.nix
     ./noctalia.nix
     ./hypridle.nix
+    ./clamav.nix
   ];
 
   home.packages = with pkgs; [
